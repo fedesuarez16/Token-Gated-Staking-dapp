@@ -45,7 +45,7 @@
 </head>
 
 <body>
-  <div class="container mt-2" style="max-width: 72em">
+  <div class="container mt-2" style="max-width: 100em">
     <nav class="navbar bg-white navbar-light">
       <div class="container-fluid">
         <span class="navbar-brand m-0 h4 fw-bold">StakeMii</span>
@@ -60,87 +60,112 @@
       <span id="notification">⌛ Loading...</span>
     </div>
 
-    <div class="mb-4" style="margin-top: 4em">
-      <a class="btn btn-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#stakeModal">
-        Stake
-      </a>
-    </div>
+    <div class="d-flex justify-content-between bd-highlight">
+        <div class="mb-4" style="margin-top: 4em">
+        <a class="btn btn-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#stakeModal">
+            Stake
+        </a>
+        </div>
 
-    <div class="mb-4" style="margin-top: 4em">
-      <a class="btn btn-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#WithdrawModal">
-        Withdraw
-      </a>
+        <div class="mb-4" style="margin-top: 4em">
+        <a class="btn btn-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#WithdrawModal">
+            Withdraw
+        </a>
+        </div>
     </div>
 
     <main id="marketplace" class="row"></main>
   </div>
 
+
+  <!-- <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown button
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div> -->
+
+
+
   <!--Stake Modal-->
-  <div class="modal fade" id="stakeModal" tabindex="-1" aria-labelledby="stakeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="stakeModalLabel">Stake</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-row">
-              <div class="col">
-                <input type="text" id="address" class="form-control mb-2" placeholder="Enter token address" />
-              </div>
-              <div class="col">
-                <input type="text" id="amountToStake" class="form-control mb-2" placeholder="Enter amount" />
-              </div>
+    <div class="modal fade" id="stakeModal" tabindex="-1" aria-labelledby="stakeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="stakeModalLabel">Stake</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="stakeBTN">
-            send
-          </button>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                    <label for="currency">Select Currency:</label>
+                    <select class="form-control" id="currencyTostake" >
+                      <option value="0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1">cUSD</option>
+                      <option value="0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F">cEUR</option>
+                      <option value="0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9">celo</option>
+                      <option value="0xC5375c73a627105eb4DF00867717F6e301966C32">cREAL</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" class="form-control" id="amountToStake"  placeholder="Enter amount">
+                  </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="stakeBTN">
+                send
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!--/Modal-->
+      <!--/Modal-->
 
 
+    
+    
     <!--Withdraw Modal-->
     <div class="modal fade" id="WithdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+        <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="withdrawModalLabel">Stake</h5>
+            <div class="modal-header">
+            <h5 class="modal-title" id="withdrawModalLabel">Withdraw</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
+            </div>
+            <div class="modal-body">
             <form>
-              <div class="form-row">
+                <div class="form-row">
                 <div class="col">
-                  <input type="text" id="address" class="form-control mb-2" placeholder="Enter token address" />
+                    <input type="text" id="address" class="form-control mb-2" placeholder="Enter token address" />
                 </div>
                 <div class="col">
-                  <input type="text" id="amountToStake" class="form-control mb-2" placeholder="Enter amount" />
+                    <input type="text" id="amountToStake" class="form-control mb-2" placeholder="Enter amount" />
                 </div>
-              </div>
+                </div>
             </form>
-          </div>
-          <div class="modal-footer">
+            </div>
+            <div class="modal-footer">
             <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
-              Close
+                Close
             </button>
             <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="withdrawBTN">
-              send
+                send
             </button>
-          </div>
+            </div>
         </div>
-      </div>
+        </div>
     </div>
     <!--/Modal-->
+        
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
