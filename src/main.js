@@ -48,6 +48,29 @@ const getBalance = async function () {
   document.querySelector("#balance").textContent = cUSDBalance
 }
 
+const TotalcEURstaked = async function () {
+  const cEURAddressTotalstaked = await contract.methods.cEURAddressTotalstaked().call()
+  const totalBalance = cEURAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+  document.querySelector("#TotalcEURstaked").textContent = totalBalance
+}
+
+const TotalcUSDstaked = async function () {
+    const cUSDAddressTotalstaked = await contract.methods.cUSDAddressTotalstaked().call()
+    const totalBalance = cUSDAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+    document.querySelector("#TotalcUSDstaked").textContent = totalBalance
+  }
+
+const TotalcRealastaked = async function () {
+const cREALAddressTotalstaked = await contract.methods.cREALAddressTotalstaked().call()
+const totalBalance = cREALAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+document.querySelector("#TotalcRealastaked").textContent = totalBalance
+}
+
+const Totalcelostaked = async function () {
+const CELOAddressTotalstaked = await contract.methods.CELOAddressTotalstaked().call()
+const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+document.querySelector("#Totalcelostaked").textContent = totalBalance
+}
 
 const interestGotten = async function () {
   const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
@@ -162,7 +185,7 @@ window.addEventListener("load", async () => {
 document
   .querySelector("#stakeBTN")
   .addEventListener("click", async (e) => {
-    let addressOfToken =  document.getElementById("address").value;
+    let addressOfToken = document.getElementById("currencyTostake").value;
     let amountToStake =  document.getElementById("amountToStake").value;
     console.log(addressOfToken, amountToStake)
 
@@ -188,7 +211,7 @@ document
 
 document.querySelector("#withdrawBTN").addEventListener("click", async (e) => {
   let addressOfToken =  document.getElementById("address").value;
-  let amountToWithdraw =  document.getElementById("amountToStake").value;
+  let amountToWithdraw =  document.getElementById("amountToWithdraw").value;
   console.log(addressOfToken, amountToWithdraw)
 
   notification(`⌛ withdrawing "${amountToWithdraw}"...`)
