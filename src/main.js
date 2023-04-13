@@ -26,6 +26,8 @@ const connectCeloWallet = async function () {
       kit.defaultAccount = accounts[0]
 
       contract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
+
+
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
@@ -178,6 +180,11 @@ window.addEventListener("load", async () => {
   notification("⌛ Loading...")
   await connectCeloWallet()
   await getBalance()
+  await TotalcEURstaked()
+  await TotalcRealastaked()
+  await TotalcUSDstaked()
+  await Totalcelostaked()
+  
   // await getProducts()
   notificationOff()
 });

@@ -21,10 +21,19 @@ contract Stakemii{
     uint stakeNumber;
 
     address constant cUSDAddress = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
+    address constant CELOAddress = 0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9;
+    address constant cEURAddress = 0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F;
+    address constant cREALAddress = 0xC5375c73a627105eb4DF00867717F6e301966C32;
+
+    uint public cEURAddressTotalstaked;
+    uint public cREALAddressTotalstaked;
+    uint public CELOAddressTotalstaked;
+    uint public cUSDAddressTotalstaked;
 
     constructor(){
         owner = msg.sender;
     }
+
 
     struct stakeInfo{
         address staker;
@@ -39,11 +48,19 @@ contract Stakemii{
         _;
     }
 
+    modifier acceptedAddress(address _tokenAddress){
+        require( _tokenAddress == cUSDAddress || _tokenAddress == CELOAddress || _tokenAddress == cEURAddress || _tokenAddress == cREALAddress, "TOKEN NOT ACCEPTED");
+        _;
+    }
+
     mapping(address => mapping(address => stakeInfo)) public usersStake;
     mapping(address => address[]) public tokensAddress;
 
-    function stake (address _tokenAddress, uint _amount) public addressCheck(_tokenAddress) {
-        require(IERC20(cUSDAddress).balanceOf(msg.sender) > 3, "User does not have a Celo Token balance that is more than 3");
+    event stakedSuccesful(address indexed _tokenaddress, uint indexed _amount);
+    event withdrawsuccesfull(address indexed _tokenaddress, uint indexed _amount);
+
+    function stake (address _tokenAddress, uint _amount) public addressCheck(_tokenAddress) acceptedAddress(_tokenAddress) {
+        require(IERC20(cUSDAddress).balanceOf(msg.sender) > 2 ether, "User does not have a Celo Token balance that is more than 3");
         uint amount = _amount * 1e18;
         require(IERC20(_tokenAddress).balanceOf(msg.sender) > amount, "insufficient balance");
         IERC20(_tokenAddress).transferFrom(msg.sender, address(this), amount );
@@ -59,10 +76,22 @@ contract Stakemii{
         tokensAddress[msg.sender].push(_tokenAddress);
 
         stakeNumber +=1;
+
+        if(_tokenAddress == cEURAddress){
+            cEURAddressTotalstaked += _amount;
+        } else if(_tokenAddress == cUSDAddress){
+           cUSDAddressTotalstaked += _amount;
+        } else if(_tokenAddress == CELOAddress){
+            CELOAddressTotalstaked += _amount;
+        }else{
+            cREALAddressTotalstaked += _amount;
+        }
+
+       emit stakedSuccesful(_tokenAddress, _amount);
     }
 
 
-    function withdraw(address _tokenAddress, uint _amount) public addressCheck(_tokenAddress){
+    function withdraw(address _tokenAddress, uint _amount) public addressCheck(_tokenAddress) acceptedAddress(_tokenAddress){
         stakeInfo storage ST = usersStake[msg.sender][_tokenAddress];
         //require(ST.timeStaked > 0, "You have no staked token here");
         require(ST.amountStaked > _amount, "insufficient balance");
@@ -71,6 +100,7 @@ contract Stakemii{
         IERC20(_tokenAddress).transferFrom(address(this), msg.sender, _amount);
         IERC20(cUSDAddress).transferFrom(address(this), msg.sender, interest);
 
+        emit withdrawsuccesfull(_tokenAddress, _amount);
     }
 
 
@@ -86,12 +116,12 @@ contract Stakemii{
         return interest;
     }
 
-    function showInterest(address _tokenAddress) external view returns(uint){
+    function showInterest(address _tokenAddress) external view acceptedAddress(_tokenAddress) returns(uint){
         uint interest = _interestGotten(_tokenAddress);
         return interest;
     }
 
-    function amountStaked(address _tokenAddress) external view returns(uint){
+    function amountStaked(address _tokenAddress) external view acceptedAddress(_tokenAddress) returns(uint){
         stakeInfo storage ST = usersStake[msg.sender][_tokenAddress];
         return  ST.amountStaked;
     }
@@ -100,7 +130,7 @@ contract Stakemii{
         return stakeNumber;
     }
 
-    function getAllTokenAddress() external view returns(address[] memory){
+    function getAllTokenInvested() external view returns(address[] memory){
        return tokensAddress[msg.sender];
     }
 
