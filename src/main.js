@@ -81,14 +81,41 @@ const TotalStakers = async function () {
     document.querySelector("#totalstakers").textContent = numberOfStakers
     console.log("totalstakers", numberOfStakers)
     }
+const getAllTokenInvested = async function () {
+    const numberOfStakers = await contract.methods.getAllTokenInvested().call()
+    //const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+    document.querySelector("#totalstakers").textContent = numberOfStakers
+    console.log("getAllTokenInvested", getAllTokenInvested)
+    }
+    
 
-const interestGotten = async function () {
+
+
+
+const showineterest = async function () {
   const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
   const result = await GatedStakingContract.methods
     .showInterest(_tokenAddress)
     .send({ from: kit.defaultAccount })
   return result
 }
+
+
+const amountStaked = async function () {
+    const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
+    const result = await GatedStakingContract.methods
+      .amountStaked(_tokenAddress)
+      .send({ from: kit.defaultAccount })
+    return result
+  }
+
+//   const getAllTokenInvested = async function () {
+//     const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
+//     const result = await GatedStakingContract.methods
+//       .getAllTokenInvested(_tokenAddress)
+//       .send({ from: kit.defaultAccount })
+//     return result
+//   }
 
 
 
@@ -193,6 +220,7 @@ window.addEventListener("load", async () => {
   await TotalcRealastaked()
   await TotalcUSDstaked()
   await Totalcelostaked()
+  await getAllTokenInvested()
   
   // await getProducts()
   notificationOff()
@@ -205,7 +233,6 @@ document
     let amountToStake = new BigNumber(document.getElementById("amountToStake").value)
     .shiftedBy(ERC20_DECIMALS)
     .toString()
-  
 
     console.log(addressOfToken, amountToStake)
 
