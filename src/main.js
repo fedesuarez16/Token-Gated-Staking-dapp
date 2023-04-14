@@ -52,61 +52,36 @@ const getBalance = async function () {
 
 const TotalcEURstaked = async function () {
   const cEURAddressTotalstaked = await contract.methods.cEURAddressTotalstaked().call()
-  //const totalBalance = cEURAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-  document.querySelector("#TotalcEURstaked").textContent = cEURAddressTotalstaked
+  document.querySelector("#TotalcEURstaked").textContent = cEURAddressTotalstaked /1e18
 }
 
 const TotalcUSDstaked = async function () {
     const cUSDAddressTotalstaked = await contract.methods.cUSDAddressTotalstaked().call()
-    //const totalBalance = cUSDAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-    document.querySelector("#TotalcUSDstaked").textContent = cUSDAddressTotalstaked
+    document.querySelector("#TotalcUSDstaked").textContent = cUSDAddressTotalstaked / 1e18
   }
 
 const TotalcRealastaked = async function () {
-const cREALAddressTotalstaked = await contract.methods.cREALAddressTotalstaked().call()
-//const totalBalance = cREALAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-document.querySelector("#TotalcRealastaked").textContent = cREALAddressTotalstaked
+    const cREALAddressTotalstaked = await contract.methods.cREALAddressTotalstaked().call()
+    document.querySelector("#TotalcRealastaked").textContent = cREALAddressTotalstaked /1e18
 }
 
 const Totalcelostaked = async function () {
-const CELOAddressTotalstaked = await contract.methods.CELOAddressTotalstaked().call()
-//const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-document.querySelector("#Totalcelostaked").textContent = CELOAddressTotalstaked
-console.log("totalBalance", CELOAddressTotalstaked)
+    const CELOAddressTotalstaked = await contract.methods.CELOAddressTotalstaked().call()
+    document.querySelector("#Totalcelostaked").textContent = CELOAddressTotalstaked /1e18
+    console.log("totalBalance", CELOAddressTotalstaked)
 }
 
 const TotalStakers = async function () {
     const numberOfStakers = await contract.methods.numberOfStakers().call()
-    //const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
     document.querySelector("#totalstakers").textContent = numberOfStakers
     console.log("totalstakers", numberOfStakers)
     }
+
 const getAllTokenInvested = async function () {
-    const getAllTokenInvested = await contract.methods.getAllTokenInvested().call()
-    //const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+    const getAllTokenInvested = await contract.methods.getAllTokenInvested().call()  
     document.querySelector("#allTokenInvested").textContent = getAllTokenInvested
     console.log("getAllTokenInvested", getAllTokenInvested)
     }
-    
-
-
-const showineterest = async function () {
-  const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
-  const result = await GatedStakingContract.methods
-    .showInterest(_tokenAddress)
-    .send({ from: kit.defaultAccount })
-  return result
-}
-
-
-const amountStaked = async function () {
-    let addressOfToken = document.getElementById("currencyTostake").value;
-    const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
-    const result = await GatedStakingContract.methods
-      .amountStaked(addressOfToken)
-      .send({ from: kit.defaultAccount })
-    return result
-  }
 
 
 function identiconTemplate(_address) {
@@ -153,6 +128,27 @@ window.addEventListener("load", async () => {
 });
 
 document
+  .querySelector("#interestMadeBTN")
+  .addEventListener("click", async (e) => {
+    let addressOfToken = document.getElementById("currencyTostake").value;
+
+    console.log(addressOfToken)
+
+    notification(`⌛ FETCHING interest "${addressOfToken}"...`)
+    try {
+       const  result = await contract.methods
+        .showInterest(addressOfToken).call();
+        notification(`🎉 Total Interest made is "${result/1e18}".`)
+
+        console.log("result", result/1e18 )
+        return;
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+    //getProducts()
+  })
+
+  document
   .querySelector("#amountStakeBTN")
   .addEventListener("click", async (e) => {
     let addressOfToken = document.getElementById("currencyTostake").value;
@@ -162,10 +158,9 @@ document
     notification(`⌛ FETCHING "${addressOfToken}"...`)
     try {
        const  result = await contract.methods
-        .amountStaked(addressOfToken)
-        .send({ from: kit.defaultAccount })
-        notification(`🎉 Total amount staked is "${result}".`)
-        console.log("result", result.events)
+        .amountStaked(addressOfToken).call();
+        notification(`🎉 Total amount staked is "${result/1e18}".`)
+        console.log("result", result/1e18)
         return;
     } catch (error) {
       notification(`⚠️ ${error}.`)
@@ -197,11 +192,11 @@ document
       const result = await contract.methods
         .stake(addressOfToken, amountToStake)
         .send({ from: kit.defaultAccount })
+        notification(`🎉 You successfully staked "${amountToStake}".`)
         return
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
-    notification(`🎉 You successfully staked "${amountToStake}".`)
     //getProducts()
   })
 
@@ -217,10 +212,10 @@ document.querySelector("#withdrawBTN").addEventListener("click", async (e) => {
     const result = await contract.methods
       .withdraw(addressOfToken, amountToWithdraw)
       .send({ from: kit.defaultAccount })
+      notification(`🎉 You successfully withdarw"${amountToWithdraw}".`)
       return
   } catch (error) {
     notification(`⚠️ ${error}.`)
   }
-  notification(`🎉 You successfully withdarw"${amountToWithdraw}".`)
-  getBalance()
+
 })  

@@ -17,12 +17,16 @@
     :root {
       --bs-font-sans-serif: "DM Sans", sans-serif;
     }
-        body{
+    body{
           background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,121,112,0.9360119047619048) 28%, rgba(0,228,255,0.8099614845938375) 100%);
           background-size: cover;
           background-attachment: fixed;
           color: #697278;
           font-family: 'Fira Sans', sans-serif;
+    }
+    .img-scale{
+        height: 100%;
+        width: 100%;
     }
 
 
@@ -46,26 +50,26 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-4">
         <div class="container-fluid">
-          <a class="navbar-brand" href="javascript:void(0)">StakeMII</a>
+          <a class="navbar-brand h1" href="javascript:void(0)">StakeMII</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#stakeModal">Stake</a>
+                <a class="nav-link h3" data-bs-toggle="modal" data-bs-target="#stakeModal">Stake</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#WithdrawModal">Withdraw</a>
+                <a class="nav-link h3" data-bs-toggle="modal" data-bs-target="#WithdrawModal">Withdraw</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#amountStaked">AmountStaked</a>
+                <a class="nav-link h3" data-bs-toggle="modal" data-bs-target="#amountStaked">AmountStaked</a>
               </li>
             </ul>
             <div>
-                <span class="nav-link border rounded-pill bg-light">
+                <span class="nav-link border rounded-pill bg-light h3">
                     <span id="balance">0</span>
                     cUSD
                   </span>
@@ -76,66 +80,70 @@
 
 
 
-
-
-  <div class="container mt-2" style="max-width: 100em">
-    <nav class="navbar bg-white navbar-light">
-        <span class="navbar-brand m-0 h4 fw-bold">StakeMii</span>
-        <span class="nav-link border rounded-pill bg-light">
-          <span id="balance">0</span>
-          cUSD
-        </span>
-      </div>
-    </nav>
-
     <div class="alert alert-warning sticky-top mt-2" role="alert">
       <span id="notification">⌛ Loading...</span>
     </div>
 
 
-    <div class="d-flex justify-content-between bd-highlight">
-        <div class="mb-4" style="margin-top: 4em">
-        <a class="btn btn-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#stakeModal">
-            Stake
-        </a>
-        </div>
-
-        <div class="mb-4" style="margin-top: 4em">
-        <a class="btn btn-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#WithdrawModal">
-            Withdraw
-        </a>
-        </div>
-    </div>
-  </div>
-
-  <main id="marketplace" class="row">
+  <main id="marketplace" class="row mt-4">
     <section class="hero-section bg-dark">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-md-4 p-4">
-              <h1 class="hero-title mb-4 animate__animated animate__fadeInDown">Trusted by <span id="totalstakers"></span> users to successfully stake their funds</h1>
-              <p class="hero-description mb-4 animate__animated animate__fadeInLeft">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sagittis eleifend nisi eu convallis. Ut rhoncus velit nec sapien aliquam, et euismod mi vestibulum. Sed volutpat turpis at odio malesuada scelerisque.</p>
-              <a href="#" class="btn btn-primary btn-lg animate__animated animate__fadeInUp">Get started</a>
+              <h1 class="hero-title mb-4 animate__animated animate__fadeInDown" class="h2">Trusted by <span id="totalstakers"></span> users to successfully stake their funds</h1>
+              <p class="hero-description mb-4 h3" class="h3">At Stakemii, we are committed to providing a secure, reliable, and user-friendly staking platform for cryptocurrency investors. Here are some of the key features and benefits that our platform offers:</p>
+              <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#interestModal">Get Your Interest</a>
             </div>
             <div class="col-md-4">
-              <img src="../resources/celo.jpg" alt="Hero Image" class="img-fluid animate__animated animate__fadeInRight">
+              <img src="https://res.cloudinary.com/blacksean/image/upload/v1681485486/celo_img_aq6tzl.jpg" alt="Hero Image" class="img-scale">
             </div>
-            <div class="col-md-4">
-                <p class="hero-titl"> <span id="TotalcEURstaked"></span> cEUR Staked</p>
-                <P class="hero-titl"> <span id="TotalcUSDstaked"></span> cUSD Staked</P>
-                <P class="hero-titl"> <span id="Totalcelostaked"></span> celo Staked</P>
-                <p class="hero-titl"> <span id="TotalcRealastaked"></span> cREAL Staked</p>
+            <div class="col-md-4" >
+                <p class="hero-title h3"> <span id="TotalcEURstaked"></span> cEUR Staked</p>
+                <P class="hero-title h3"> <span id="TotalcUSDstaked"></span> cUSD Staked</P>
+                <P class="hero-title h3"> <span id="Totalcelostaked"></span> celo Staked</P>
+                <p class="hero-title h3"> <span id="TotalcRealastaked"></span> cREAL Staked</p>
             </div>
           </div>
         </div>
       </section>
 
       <div>
-        <p id="allTokenInvested"></p>
+        <p id="allTokenInvested" class="h2"></p>
       </div>
 </main>
 
-
+          <!--iNTEREST made Modal-->
+          <div class="modal fade" id="interestModal" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="interestModalLabel">Amount Staked</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                        <label for="currency">Select Currency:</label>
+                        <select class="form-control" id="currencyTostake" >
+                          <option value="0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1">cUSD</option>
+                          <option value="0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F">cEUR</option>
+                          <option value="0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9">celo</option>
+                          <option value="0xC5375c73a627105eb4DF00867717F6e301966C32">cREAL</option>
+                        </select>
+                      </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="interestMadeBTN">
+                    send
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
       <!--Amount Staked Modal-->
       <div class="modal fade" id="amountStaked" tabindex="-1" aria-labelledby="amountStakedLabel" aria-hidden="true">
