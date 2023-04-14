@@ -5,7 +5,7 @@ import StakemiiAbi from "../contract/Stakemii.abi.json"
 import erc20Abi from "../contract/erc20.abi.json"
 
 const ERC20_DECIMALS = 18
-const StakemiiAddress = "0x9289F579a733d45Bb04FE40C28b5a84c38F6dDe2"
+const StakemiiAddress = "0xAECd3e33f14e94Dc702886d4Df457BCDaC68534A"
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
 
 let kit
@@ -52,27 +52,35 @@ const getBalance = async function () {
 
 const TotalcEURstaked = async function () {
   const cEURAddressTotalstaked = await contract.methods.cEURAddressTotalstaked().call()
-  const totalBalance = cEURAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-  document.querySelector("#TotalcEURstaked").textContent = totalBalance
+  //const totalBalance = cEURAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+  document.querySelector("#TotalcEURstaked").textContent = cEURAddressTotalstaked
 }
 
 const TotalcUSDstaked = async function () {
     const cUSDAddressTotalstaked = await contract.methods.cUSDAddressTotalstaked().call()
-    const totalBalance = cUSDAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-    document.querySelector("#TotalcUSDstaked").textContent = totalBalance
+    //const totalBalance = cUSDAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+    document.querySelector("#TotalcUSDstaked").textContent = cUSDAddressTotalstaked
   }
 
 const TotalcRealastaked = async function () {
 const cREALAddressTotalstaked = await contract.methods.cREALAddressTotalstaked().call()
-const totalBalance = cREALAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-document.querySelector("#TotalcRealastaked").textContent = totalBalance
+//const totalBalance = cREALAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+document.querySelector("#TotalcRealastaked").textContent = cREALAddressTotalstaked
 }
 
 const Totalcelostaked = async function () {
 const CELOAddressTotalstaked = await contract.methods.CELOAddressTotalstaked().call()
-const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-document.querySelector("#Totalcelostaked").textContent = totalBalance
+//const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+document.querySelector("#Totalcelostaked").textContent = CELOAddressTotalstaked
+console.log("totalBalance", CELOAddressTotalstaked)
 }
+
+const TotalStakers = async function () {
+    const numberOfStakers = await contract.methods.numberOfStakers().call()
+    //const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+    document.querySelector("#totalstakers").textContent = numberOfStakers
+    console.log("totalstakers", numberOfStakers)
+    }
 
 const interestGotten = async function () {
   const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
@@ -180,6 +188,7 @@ window.addEventListener("load", async () => {
   notification("⌛ Loading...")
   await connectCeloWallet()
   await getBalance()
+  await TotalStakers()
   await TotalcEURstaked()
   await TotalcRealastaked()
   await TotalcUSDstaked()
@@ -193,7 +202,9 @@ document
   .querySelector("#stakeBTN")
   .addEventListener("click", async (e) => {
     let addressOfToken = document.getElementById("currencyTostake").value;
-    let amountToStake =  document.getElementById("amountToStake").value;
+    let amount =  document.getElementById("amountToStake").value;
+    let amountToStake = amount * 1e18;
+
     console.log(addressOfToken, amountToStake)
 
     notification("⌛ Waiting for payment approval...")
@@ -218,13 +229,14 @@ document
 
 document.querySelector("#withdrawBTN").addEventListener("click", async (e) => {
   let addressOfToken =  document.getElementById("address").value;
-  let amountToWithdraw =  document.getElementById("amountToWithdraw").value;
+  let amount =  document.getElementById("amountToWithdraw").value;
+  let amountToWithdraw =  amount * 1e18;
   console.log(addressOfToken, amountToWithdraw)
 
   notification(`⌛ withdrawing "${amountToWithdraw}"...`)
   try {
     const result = await contract.methods
-      .stake(addressOfToken, amountToWithdraw)
+      .withdraw(addressOfToken, amountToWithdraw)
       .send({ from: kit.defaultAccount })
       return
   } catch (error) {

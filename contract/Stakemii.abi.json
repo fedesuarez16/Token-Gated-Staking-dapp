@@ -1,37 +1,50 @@
 [
     {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
         "inputs": [
             {
+                "indexed": true,
                 "internalType": "address",
-                "name": "spender",
+                "name": "_tokenaddress",
                 "type": "address"
             },
             {
+                "indexed": true,
                 "internalType": "uint256",
-                "name": "amount",
+                "name": "_amount",
                 "type": "uint256"
             }
         ],
-        "name": "approve",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "stakedSuccesful",
+        "type": "event"
     },
     {
+        "anonymous": false,
         "inputs": [
             {
+                "indexed": true,
                 "internalType": "address",
-                "name": "account",
+                "name": "_tokenaddress",
                 "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
             }
         ],
-        "name": "balanceOf",
+        "name": "withdrawsuccesfull",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "CELOAddressTotalstaked",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -46,23 +59,120 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "to",
+                "name": "_tokenAddress",
+                "type": "address"
+            }
+        ],
+        "name": "amountStaked",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "cEURAddressTotalstaked",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "cREALAddressTotalstaked",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "cUSDAddressTotalstaked",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllTokenInvested",
+        "outputs": [
+            {
+                "internalType": "address[]",
+                "name": "",
+                "type": "address[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "numberOfStakers",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_tokenAddress",
+                "type": "address"
+            }
+        ],
+        "name": "showInterest",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_tokenAddress",
                 "type": "address"
             },
             {
                 "internalType": "uint256",
-                "name": "amount",
+                "name": "_amount",
                 "type": "uint256"
             }
         ],
-        "name": "transfer",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "name": "stake",
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -70,28 +180,80 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "from",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "to",
+                "name": "",
                 "type": "address"
             },
             {
                 "internalType": "uint256",
-                "name": "amount",
+                "name": "",
                 "type": "uint256"
             }
         ],
-        "name": "transferFrom",
+        "name": "tokensAddress",
         "outputs": [
             {
-                "internalType": "bool",
+                "internalType": "address",
                 "name": "",
-                "type": "bool"
+                "type": "address"
             }
         ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "usersStake",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "staker",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "tokenStaked",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amountStaked",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "timeStaked",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_tokenAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     }

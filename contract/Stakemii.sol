@@ -52,6 +52,11 @@ contract Stakemii{
         require( _tokenAddress == cUSDAddress || _tokenAddress == CELOAddress || _tokenAddress == cEURAddress || _tokenAddress == cREALAddress, "TOKEN NOT ACCEPTED");
         _;
     }
+    modifier onlyOwner(){
+        require(msg.sender == owner, "not owner");
+        _;
+    }
+
 
     mapping(address => mapping(address => stakeInfo)) public usersStake;
     mapping(address => address[]) public tokensAddress;
@@ -61,9 +66,8 @@ contract Stakemii{
 
     function stake (address _tokenAddress, uint _amount) public addressCheck(_tokenAddress) acceptedAddress(_tokenAddress) {
         require(IERC20(cUSDAddress).balanceOf(msg.sender) > 2 ether, "User does not have a Celo Token balance that is more than 3");
-        uint amount = _amount * 1e18;
-        require(IERC20(_tokenAddress).balanceOf(msg.sender) > amount, "insufficient balance");
-        IERC20(_tokenAddress).transferFrom(msg.sender, address(this), amount );
+        require(IERC20(_tokenAddress).balanceOf(msg.sender) > _amount, "insufficient balance");
+        IERC20(_tokenAddress).transferFrom(msg.sender, address(this), _amount );
         stakeInfo storage ST = usersStake[msg.sender][_tokenAddress];
         if(ST.amountStaked > 0){
             uint interest = _interestGotten(_tokenAddress);
@@ -94,11 +98,11 @@ contract Stakemii{
     function withdraw(address _tokenAddress, uint _amount) public addressCheck(_tokenAddress) acceptedAddress(_tokenAddress){
         stakeInfo storage ST = usersStake[msg.sender][_tokenAddress];
         //require(ST.timeStaked > 0, "You have no staked token here");
-        require(ST.amountStaked > _amount, "insufficient balance");
+        require(_amount <= ST.amountStaked , "insufficient balance");
         uint interest = _interestGotten(_tokenAddress);
         ST.amountStaked -= _amount;
-        IERC20(_tokenAddress).transferFrom(address(this), msg.sender, _amount);
-        IERC20(cUSDAddress).transferFrom(address(this), msg.sender, interest);
+        IERC20(_tokenAddress).transfer(msg.sender, _amount);
+        IERC20(cUSDAddress).transfer(msg.sender, interest);
 
         emit withdrawsuccesfull(_tokenAddress, _amount);
     }
@@ -108,9 +112,9 @@ contract Stakemii{
         stakeInfo storage ST = usersStake[msg.sender][_tokenAddress];
         uint interest;
         if(ST.amountStaked > 0){
-            uint time = ST.timeStaked - block.timestamp;
+            uint time = block.timestamp - ST.timeStaked;
             uint principal = ST.amountStaked;
-            interest = principal * rate + time;
+            interest = principal * rate * time;
              interest /=  factor;
         }
         return interest;
@@ -133,5 +137,11 @@ contract Stakemii{
     function getAllTokenInvested() external view returns(address[] memory){
        return tokensAddress[msg.sender];
     }
+
+    function emergencyWithdraw(address _tokenAddress) external onlyOwner{
+       uint bal = IERC20(_tokenAddress).balanceOf(address(this));
+       IERC20(_tokenAddress).transfer(msg.sender, bal);
+    }
+
 
 }
