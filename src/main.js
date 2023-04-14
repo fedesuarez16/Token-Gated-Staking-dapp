@@ -84,12 +84,10 @@ const TotalStakers = async function () {
 const getAllTokenInvested = async function () {
     const getAllTokenInvested = await contract.methods.getAllTokenInvested().call()
     //const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-   // document.querySelector("#totalstakers").textContent = numberOfStakers
+    document.querySelector("#allTokenInvested").textContent = getAllTokenInvested
     console.log("getAllTokenInvested", getAllTokenInvested)
     }
     
-
-
 
 
 const showineterest = async function () {
@@ -102,9 +100,10 @@ const showineterest = async function () {
 
 
 const amountStaked = async function () {
+    let addressOfToken = document.getElementById("currencyTostake").value;
     const GatedStakingContract = new kit.web3.eth.Contract(StakemiiAbi, StakemiiAddress)
     const result = await GatedStakingContract.methods
-      .amountStaked(_tokenAddress)
+      .amountStaked(addressOfToken)
       .send({ from: kit.defaultAccount })
     return result
   }
@@ -152,6 +151,29 @@ window.addEventListener("load", async () => {
   // await getProducts()
   notificationOff()
 });
+
+document
+  .querySelector("#amountStakeBTN")
+  .addEventListener("click", async (e) => {
+    let addressOfToken = document.getElementById("currencyTostake").value;
+
+    console.log(addressOfToken)
+
+    notification(`⌛ FETCHING "${addressOfToken}"...`)
+    try {
+       const  result = await contract.methods
+        .amountStaked(addressOfToken)
+        .send({ from: kit.defaultAccount })
+        notification(`🎉 Total amount staked is "${result}".`)
+        console.log("result", result.events)
+        return;
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+    //getProducts()
+  })
+
+  
 
 document
   .querySelector("#stakeBTN")

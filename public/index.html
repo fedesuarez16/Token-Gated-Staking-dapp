@@ -45,9 +45,41 @@
 </head>
 
 <body>
+
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="javascript:void(0)">StakeMII</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#stakeModal">Stake</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#WithdrawModal">Withdraw</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#amountStaked">AmountStaked</a>
+              </li>
+            </ul>
+            <div>
+                <span class="nav-link border rounded-pill bg-light">
+                    <span id="balance">0</span>
+                    cUSD
+                  </span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+
+
+
   <div class="container mt-2" style="max-width: 100em">
     <nav class="navbar bg-white navbar-light">
-      <div class="container-fluid">
         <span class="navbar-brand m-0 h4 fw-bold">StakeMii</span>
         <span class="nav-link border rounded-pill bg-light">
           <span id="balance">0</span>
@@ -97,8 +129,53 @@
           </div>
         </div>
       </section>
+
+      <div>
+        <p id="allTokenInvested"></p>
+      </div>
 </main>
 
+
+
+      <!--Amount Staked Modal-->
+      <div class="modal fade" id="amountStaked" tabindex="-1" aria-labelledby="amountStakedLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="amountStakedLabel">Amount Staked</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                    <label for="currency">Select Currency:</label>
+                    <select class="form-control" id="currencyTostake" >
+                      <option value="0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1">cUSD</option>
+                      <option value="0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F">cEUR</option>
+                      <option value="0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9">celo</option>
+                      <option value="0xC5375c73a627105eb4DF00867717F6e301966C32">cREAL</option>
+                    </select>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" class="form-control" id="amountToStake"  placeholder="Enter amount">
+                  </div> -->
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="amountStakeBTN">
+                send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    
   <!--Stake Modal-->
     <div class="modal fade" id="stakeModal" tabindex="-1" aria-labelledby="stakeModalLabel" aria-hidden="true">
         <div class="modal-dialog">
