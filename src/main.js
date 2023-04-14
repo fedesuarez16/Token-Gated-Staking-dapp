@@ -71,10 +71,10 @@ const Totalcelostaked = async function () {
     console.log("totalBalance", CELOAddressTotalstaked)
 }
 
-const TotalStakers = async function () {
-    const numberOfStakers = await contract.methods.numberOfStakers().call()
-    document.querySelector("#totalstakers").textContent = numberOfStakers
-    console.log("totalstakers", numberOfStakers)
+const totalTransaction = async function () {
+    const totalTransaction = await contract.methods.numberOfStakers().call()
+    document.querySelector("#totalTransaction").textContent = totalTransaction
+    console.log("totalstakers", totalTransaction)
     }
 
 const getAllTokenInvested = async function () {
@@ -116,7 +116,7 @@ window.addEventListener("load", async () => {
   notification("⌛ Loading...")
   await connectCeloWallet()
   await getBalance()
-  await TotalStakers()
+  await totalTransaction()
   await TotalcEURstaked()
   await TotalcRealastaked()
   await TotalcUSDstaked()
@@ -130,7 +130,8 @@ window.addEventListener("load", async () => {
 document
   .querySelector("#interestMadeBTN")
   .addEventListener("click", async (e) => {
-    let addressOfToken = document.getElementById("currencyTostake").value;
+    let addressOfToken = document.getElementById("currencyInterest").value;
+    
 
     console.log(addressOfToken)
 
@@ -138,20 +139,21 @@ document
     try {
        const  result = await contract.methods
         .showInterest(addressOfToken).call();
-        notification(`🎉 Total Interest made is "${result/1e18}".`)
-
+        document.querySelector("#interestResult").textContent = result/1e18
         console.log("result", result/1e18 )
+        notificationOff()
         return;
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
+    notificationOff()
     //getProducts()
   })
 
   document
   .querySelector("#amountStakeBTN")
   .addEventListener("click", async (e) => {
-    let addressOfToken = document.getElementById("currencyTostake").value;
+    let addressOfToken = document.getElementById("currencyStake").value;
 
     console.log(addressOfToken)
 
@@ -165,6 +167,7 @@ document
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
+    notificationOff()
     //getProducts()
   })
 
