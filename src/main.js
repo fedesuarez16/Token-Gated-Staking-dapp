@@ -82,9 +82,9 @@ const TotalStakers = async function () {
     console.log("totalstakers", numberOfStakers)
     }
 const getAllTokenInvested = async function () {
-    const numberOfStakers = await contract.methods.getAllTokenInvested().call()
+    const getAllTokenInvested = await contract.methods.getAllTokenInvested().call()
     //const totalBalance = CELOAddressTotalstaked.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-    document.querySelector("#totalstakers").textContent = numberOfStakers
+   // document.querySelector("#totalstakers").textContent = numberOfStakers
     console.log("getAllTokenInvested", getAllTokenInvested)
     }
     
