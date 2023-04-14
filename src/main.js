@@ -5,7 +5,7 @@ import StakemiiAbi from "../contract/Stakemii.abi.json"
 import erc20Abi from "../contract/erc20.abi.json"
 
 const ERC20_DECIMALS = 18
-const StakemiiAddress = "0xAECd3e33f14e94Dc702886d4Df457BCDaC68534A"
+const StakemiiAddress = "0x00a3C172E6cc85e1681B6148E1a98b77057AFF7A"
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
 
 let kit
@@ -202,8 +202,10 @@ document
   .querySelector("#stakeBTN")
   .addEventListener("click", async (e) => {
     let addressOfToken = document.getElementById("currencyTostake").value;
-    let amount =  document.getElementById("amountToStake").value;
-    let amountToStake = amount * 1e18;
+    let amountToStake = new BigNumber(document.getElementById("amountToStake").value)
+    .shiftedBy(ERC20_DECIMALS)
+    .toString()
+  
 
     console.log(addressOfToken, amountToStake)
 
@@ -229,8 +231,9 @@ document
 
 document.querySelector("#withdrawBTN").addEventListener("click", async (e) => {
   let addressOfToken =  document.getElementById("address").value;
-  let amount =  document.getElementById("amountToWithdraw").value;
-  let amountToWithdraw =  amount * 1e18;
+  let amountToWithdraw = new BigNumber(document.getElementById("amountToStake").value)
+  .shiftedBy(ERC20_DECIMALS)
+  .toString()
   console.log(addressOfToken, amountToWithdraw)
 
   notification(`⌛ withdrawing "${amountToWithdraw}"...`)
